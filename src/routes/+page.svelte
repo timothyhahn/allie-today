@@ -1,13 +1,7 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
+	import type { Post } from '$lib/post';
 
-	interface Post {
-		id: string;
-		description: string | undefined;
-		media_url: string;
-		post_type: string;
-
-	}
 	let posts: Post[] = [];
 	let page = 0;
 	let done = false;
@@ -15,7 +9,7 @@
 	let y = 0;
 	onMount(() => {
 		loadNextPage();
-	})
+	});
 
 	function loadNextPage() {
 		if (done || loading) {
@@ -48,9 +42,13 @@
 
 <section class="grid grid-cols-2 md:grid-cols-3 gap-4">
 	{#each posts as post}
-		<div>
-			{post.description || ''}
-			<img class="h-[500px] w-[500px] object-cover rounded-lg" src={post.media_url} alt={post.description}>
-		</div>
+		<a href={`posts/${post.id}`}>
+			<div>
+
+				{post.description || ''}
+				<img class="h-[300px] w-[300px] md:h-[500px] md:w-[500px] object-cover rounded-lg" src={post.media_url}
+						 alt={post.description}>
+			</div>
+		</a>
 	{/each}
 </section>

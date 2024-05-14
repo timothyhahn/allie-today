@@ -1,6 +1,5 @@
 <script>
 	import '../app.css';
-	import { AppShell } from '@skeletonlabs/skeleton';
 </script>
 
 <main class="h-[100vh] w-full">
