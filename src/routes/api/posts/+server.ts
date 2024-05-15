@@ -21,7 +21,7 @@ export const GET: RequestHandler = async ({ url }) => {
 			.select()
 			.from(schema.post)
 			.orderBy(desc(schema.post.created_at))
-			.limit(10)
+			.limit(12)
 			.offset(offset);
 
 		return json({ posts: result, total: totalNum[0].value });

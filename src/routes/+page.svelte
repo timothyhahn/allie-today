@@ -17,7 +17,7 @@
 			return;
 		}
 		loading = true;
-		fetch(`/api/posts?offset=${page * 10}`)
+		fetch(`/api/posts?offset=${page * 12}`)
 			.then((res) => res.json())
 			.then((data) => {
 				if (data.posts.length === 0) {
@@ -38,7 +38,7 @@
 	}
 </script>
 
-<h1 class="h1 text-center">Allie says, "sup"</h1>
+<h1 class="h1 text-center">Allie says, "woof"</h1>
 
 <svelte:window bind:scrollY={y} />
 
@@ -48,7 +48,7 @@
 			<div>
 				{post.description || ''}
 				<img
-					class="h-[300px] w-[300px] rounded-lg object-cover md:h-[500px] md:w-[500px]"
+					class="h-[300px] w-[300px] rounded-lg object-cover transition-all duration-100 hover:scale-105 hover:shadow-lg hover:shadow-slate-800 md:h-[500px] md:w-[500px]"
 					src={post.media_url}
 					alt={post.description}
 					loading="lazy"

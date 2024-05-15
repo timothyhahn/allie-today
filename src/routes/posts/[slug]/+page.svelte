@@ -54,7 +54,9 @@
 </div>
 {#if post}
 	<img
-		class="mx-auto {portrait ? 'max-h-[90vh]' : 'max-w-[70vw]'}"
+		class="slate-900 mx-auto rounded-lg shadow-md shadow-slate-800 {portrait
+			? 'max-h-[90vh]'
+			: 'max-w-[70vw]'}"
 		src={largeUrl}
 		alt={post.description}
 		loading="lazy"
