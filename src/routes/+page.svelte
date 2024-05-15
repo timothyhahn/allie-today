@@ -47,7 +47,7 @@
 
 				{post.description || ''}
 				<img class="h-[300px] w-[300px] md:h-[500px] md:w-[500px] object-cover rounded-lg" src={post.media_url}
-						 alt={post.description}>
+						 alt={post.description} loading="lazy">
 			</div>
 		</a>
 	{/each}
