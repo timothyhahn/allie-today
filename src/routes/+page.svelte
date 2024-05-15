@@ -29,7 +29,7 @@
 			});
 	}
 
-	$: if (y && y + window.innerHeight >= (document.body.scrollHeight - 10)) {
+	$: if (y && y + window.innerHeight >= (document.body.scrollHeight - 100)) {
 		if (!loading && !done) {
 			page++;
 			loadNextPage();
