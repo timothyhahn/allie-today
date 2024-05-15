@@ -17,7 +17,12 @@ export const GET: RequestHandler = async ({ url }) => {
 
 	try {
 		const totalNum = await db.select({ value: count() }).from(schema.post);
-		const result = await db.select().from(schema.post).orderBy(desc(schema.post.created_at)).limit(10).offset(offset);
+		const result = await db
+			.select()
+			.from(schema.post)
+			.orderBy(desc(schema.post.created_at))
+			.limit(10)
+			.offset(offset);
 
 		return json({ posts: result, total: totalNum[0].value });
 	} catch (e) {

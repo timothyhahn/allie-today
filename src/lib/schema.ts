@@ -8,5 +8,7 @@ export const post = pgTable('posts', {
 	description: text('description'),
 	media_url: text('media_url').notNull(),
 	type: postTypeEnum('post_type').notNull(),
-	created_at: timestamp('created_at').notNull().default(sql`now()`),
+	created_at: timestamp('created_at')
+		.notNull()
+		.default(sql`now()`)
 });

@@ -1,7 +1,7 @@
 import { error } from '@sveltejs/kit';
 import type { PageLoad } from './$types';
 
-export const load: PageLoad = async ({params, fetch}) => {
+export const load: PageLoad = async ({ params, fetch }) => {
 	const slug = params.slug;
 	if (!slug) {
 		return {
@@ -18,6 +18,6 @@ export const load: PageLoad = async ({params, fetch}) => {
 
 	const json = await post.json();
 	return {
-		post: json.post,
+		post: json.post
 	};
 };

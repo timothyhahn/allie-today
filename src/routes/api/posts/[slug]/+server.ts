@@ -5,7 +5,7 @@ import { neon } from '@neondatabase/serverless';
 import * as schema from '$lib/schema';
 import { eq } from 'drizzle-orm';
 
-export const GET: RequestHandler = async ({params}) => {
+export const GET: RequestHandler = async ({ params }) => {
 	const postId = params.slug;
 	if (!postId) {
 		return error(404, 'Post not found');

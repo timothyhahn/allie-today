@@ -7,6 +7,7 @@
 	let done = false;
 	let loading = false;
 	let y = 0;
+
 	onMount(() => {
 		loadNextPage();
 	});
@@ -29,25 +30,29 @@
 			});
 	}
 
-	$: if (y && y + window.innerHeight >= (document.body.scrollHeight - 100)) {
+	$: if (y && y + window.innerHeight >= document.body.scrollHeight - 100) {
 		if (!loading && !done) {
 			page++;
 			loadNextPage();
 		}
 	}
 </script>
+
 <h1 class="h1 text-center">Allie says, "sup"</h1>
 
 <svelte:window bind:scrollY={y} />
 
-<section class="grid grid-cols-2 md:grid-cols-3 gap-4">
+<section class="grid grid-cols-2 gap-4 md:grid-cols-3">
 	{#each posts as post}
 		<a href={`posts/${post.id}`}>
 			<div>
-
 				{post.description || ''}
-				<img class="h-[300px] w-[300px] md:h-[500px] md:w-[500px] object-cover rounded-lg" src={post.media_url}
-						 alt={post.description} loading="lazy">
+				<img
+					class="h-[300px] w-[300px] rounded-lg object-cover md:h-[500px] md:w-[500px]"
+					src={post.media_url}
+					alt={post.description}
+					loading="lazy"
+				/>
 			</div>
 		</a>
 	{/each}
