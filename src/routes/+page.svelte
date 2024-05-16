@@ -1,16 +1,15 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import type { Post } from '$lib/post';
+	import type { PageData } from './$types';
 
-	let posts: Post[] = [];
+	export let data: PageData;
+
+	let posts: Post[] = data.posts;
 	let page = 0;
 	let done = false;
 	let loading = false;
 	let y = 0;
-
-	onMount(() => {
-		loadNextPage();
-	});
 
 	function loadNextPage() {
 		if (done || loading) {
@@ -44,7 +43,7 @@
 
 <section class="grid grid-cols-2 gap-4 md:grid-cols-3">
 	{#each posts as post}
-		<a href={`posts/${post.id}`}>
+		<a href={`/posts/${post.id}`} >
 			<div>
 				{post.description || ''}
 				<img
