@@ -40,8 +40,20 @@
 		}
 	}
 </script>
+<svelte:head>
+	{#if post}
+		{#if post.description}
+			<title>{post.description}</title>
+		{/if}
+		{#if post.media_url}
+			<meta property="og:image" content={post.media_url} />
+		{/if}
+	{/if}
+</svelte:head>
 
-<a href="/" class="float-right text-4xl"> <X /> </a>
+<a href="/" class="float-right text-4xl">
+	<X />
+</a>
 <div class="clear-both"></div>
 <div class="fixed h-[50vh] w-[80vw] opacity-50">
 	{#if loading}
