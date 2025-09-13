@@ -3,24 +3,45 @@
 	import { X } from 'lucide-svelte';
 	import { onMount } from 'svelte';
 	import { goto } from '$app/navigation';
+	import { focusTrap } from '$lib/focusTrap';
 
 	export let data: PageData;
 	let loading = true;
 	let imgElement: HTMLImageElement;
+	let modalElement: HTMLElement;
 	let portrait = true;
 
 	let post = data.post;
 	$: largeUrl = post ? post.media_url.replace('/public', '/large') : '';
+
+	function closeModal() {
+		goto('/');
+	}
+
 	onMount(() => {
 		const handleKeyup = (e: KeyboardEvent) => {
-			if (e.key === 'Escape') {
-				goto('/');
+			switch (e.key) {
+				case 'Escape':
+					closeModal();
+					break;
+				case 'Enter':
+				case ' ':
+					// Allow space or enter to close the modal when it has focus
+					if (e.target === modalElement) {
+						e.preventDefault();
+						closeModal();
+					}
+					break;
 			}
 		};
 		document.addEventListener('keyup', handleKeyup, false);
 
+		// Prevent background scrolling when modal is open
+		document.body.style.overflow = 'hidden';
+
 		return () => {
 			document.removeEventListener('keyup', handleKeyup, false);
+			document.body.style.overflow = '';
 		};
 	});
 
@@ -40,6 +61,7 @@
 		}
 	}
 </script>
+
 <svelte:head>
 	{#if post}
 		{#if post.description}
@@ -51,27 +73,68 @@
 	{/if}
 </svelte:head>
 
-<a href="/" class="float-right text-4xl">
-	<X />
-</a>
-<div class="clear-both"></div>
-<div class="fixed h-[50vh] w-[80vw] opacity-50">
+<!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
+<div
+	class="fixed inset-0 flex items-center justify-center p-4"
+	role="dialog"
+	aria-modal="true"
+	aria-labelledby="modal-title"
+	aria-describedby="modal-description"
+	tabindex="-1"
+	bind:this={modalElement}
+	use:focusTrap
+	on:click={(e) => {
+		if (e.target === e.currentTarget) {
+			closeModal();
+		}
+	}}
+	on:keydown={(e) => {
+		if (e.key === 'Enter' || e.key === ' ') {
+			if (e.target === e.currentTarget) {
+				e.preventDefault();
+				closeModal();
+			}
+		}
+	}}
+>
+	<button
+		on:click={closeModal}
+		class="absolute right-4 top-4 z-10 rounded text-4xl transition-transform hover:scale-110 focus:outline-none focus:ring-2 focus:ring-white/50"
+		aria-label="Close image view"
+	>
+		<X />
+	</button>
+
 	{#if loading}
-		<img
-			class="relative mx-auto h-full w-12 fill-slate-800 align-middle dark:fill-slate-100"
-			src="/spinning-circles.svg"
-			alt="Loading indicator"
-		/>
+		<div class="absolute inset-0 flex items-center justify-center">
+			<img
+				class="h-12 w-12 fill-slate-800 dark:fill-slate-100"
+				src="/spinning-circles.svg"
+				alt="Loading indicator"
+			/>
+		</div>
+	{/if}
+
+	{#if post}
+		<div class="flex max-h-full max-w-full flex-col items-center">
+			<img
+				class="rounded-lg object-contain shadow-md shadow-slate-800 {portrait
+					? 'max-h-[90vh] w-auto'
+					: 'h-auto max-h-[90vh] max-w-[90vw]'}"
+				src={largeUrl}
+				alt={post.description || 'Post image'}
+				loading="lazy"
+				bind:this={imgElement}
+			/>
+			{#if post.description}
+				<h1 id="modal-title" class="sr-only">{post.description}</h1>
+				<p id="modal-description" class="mt-4 max-w-2xl px-4 text-center text-white/90">
+					{post.description}
+				</p>
+			{:else}
+				<h1 id="modal-title" class="sr-only">Post image</h1>
+				<p id="modal-description" class="sr-only">Viewing post image in full size</p>
+			{/if}
+		</div>
 	{/if}
 </div>
-{#if post}
-	<img
-		class="slate-900 mx-auto rounded-lg shadow-md shadow-slate-800 {portrait
-			? 'max-h-[90vh]'
-			: 'max-w-[70vw]'}"
-		src={largeUrl}
-		alt={post.description}
-		loading="lazy"
-		bind:this={imgElement}
-	/>
-{/if}
