@@ -1,7 +1,13 @@
 <script lang="ts">
-	export let isDarkMode: boolean;
-	export let woofAnimating: boolean;
-	export let toggleDarkMode: () => void;
+	let {
+		isDarkMode,
+		woofAnimating,
+		toggleDarkMode
+	}: {
+		isDarkMode: boolean;
+		woofAnimating: boolean;
+		toggleDarkMode: () => void;
+	} = $props();
 </script>
 
 <header class="mb-4 flex items-center justify-between">
@@ -16,7 +22,7 @@
 		>"
 	</h1>
 	<button
-		on:click={toggleDarkMode}
+		onclick={toggleDarkMode}
 		class="flex h-8 w-8 items-center justify-center rounded-full bg-gray-900 shadow-md transition-all duration-500 ease-out hover:scale-105 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:bg-gray-100 dark:focus:ring-blue-400"
 		aria-label="Toggle between light and dark mode"
 		aria-pressed={isDarkMode}

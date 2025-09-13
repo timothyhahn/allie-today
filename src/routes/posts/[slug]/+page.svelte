@@ -5,14 +5,14 @@
 	import { goto } from '$app/navigation';
 	import { focusTrap } from '$lib/focusTrap';
 
-	export let data: PageData;
-	let loading = true;
-	let imgElement: HTMLImageElement;
-	let modalElement: HTMLElement;
-	let portrait = true;
+	let { data }: { data: PageData } = $props();
+	let loading = $state(true);
+	let imgElement = $state<HTMLImageElement>();
+	let modalElement = $state<HTMLElement>();
+	let portrait = $state(true);
 
-	let post = data.post;
-	$: largeUrl = post ? post.media_url.replace('/public', '/large') : '';
+	let post = $state(data.post);
+	let largeUrl = $derived(post ? post.media_url.replace('/public', '/large') : '');
 
 	function closeModal() {
 		goto('/');
@@ -45,21 +45,23 @@
 		};
 	});
 
-	$: if (imgElement) {
-		if (imgElement.complete) {
-			loading = false;
-			if (imgElement.width >= imgElement.height) {
-				portrait = false;
-			}
-		} else {
-			imgElement.addEventListener('load', () => {
+	$effect(() => {
+		if (imgElement) {
+			if (imgElement.complete) {
 				loading = false;
 				if (imgElement.width >= imgElement.height) {
 					portrait = false;
 				}
-			});
+			} else {
+				imgElement.addEventListener('load', () => {
+					loading = false;
+					if (imgElement && imgElement.width >= imgElement.height) {
+						portrait = false;
+					}
+				});
+			}
 		}
-	}
+	});
 </script>
 
 <svelte:head>
@@ -73,7 +75,6 @@
 	{/if}
 </svelte:head>
 
-<!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
 <div
 	class="fixed inset-0 flex items-center justify-center p-4"
 	role="dialog"
@@ -83,12 +84,12 @@
 	tabindex="-1"
 	bind:this={modalElement}
 	use:focusTrap
-	on:click={(e) => {
+	onclick={(e) => {
 		if (e.target === e.currentTarget) {
 			closeModal();
 		}
 	}}
-	on:keydown={(e) => {
+	onkeydown={(e) => {
 		if (e.key === 'Enter' || e.key === ' ') {
 			if (e.target === e.currentTarget) {
 				e.preventDefault();
@@ -98,7 +99,7 @@
 	}}
 >
 	<button
-		on:click={closeModal}
+		onclick={closeModal}
 		class="absolute right-4 top-4 z-10 rounded text-4xl transition-transform hover:scale-110 focus:outline-none focus:ring-2 focus:ring-white/50"
 		aria-label="Close image view"
 	>

@@ -6,23 +6,25 @@
 	import Header from '$lib/components/Header.svelte';
 	import ScrollToTopButton from '$lib/components/ScrollToTopButton.svelte';
 
-	export let data: PageData;
+	let { data }: { data: PageData } = $props();
 
-	let posts: Post[] = data.posts;
-	let page = 0;
-	let done = false;
-	let loading = false;
-	let y = 0;
-	let visiblePosts: Set<string> = new Set();
-	let loadedImages: Set<string> = new Set();
-	let animationQueue: string[] = [];
-	let isDarkMode = false;
-	let woofAnimating = false;
+	let posts = $state<Post[]>(data.posts);
+	let page = $state(0);
+	let done = $state(false);
+	let loading = $state(false);
+	let y = $state(0);
+	let visiblePosts = $state<Set<string>>(new Set());
+	let loadedImages = $state<Set<string>>(new Set());
+	let animationQueue = $state<string[]>([]);
+	let isDarkMode = $state(false);
+	let woofAnimating = $state(false);
 	let animationTimer: ReturnType<typeof setTimeout>;
 
-	$: if (posts.length > 0 && animationQueue.length === 0) {
-		queuePostsForAnimation(posts.map((p) => p.id));
-	}
+	$effect(() => {
+		if (posts.length > 0 && animationQueue.length === 0) {
+			queuePostsForAnimation(posts.map((p) => p.id));
+		}
+	});
 
 	function triggerWoofAnimation() {
 		woofAnimating = true;
@@ -203,12 +205,14 @@
 			});
 	}
 
-	$: if (y && y + window.innerHeight >= document.body.scrollHeight - 100) {
-		if (!loading && !done) {
-			page++;
-			loadNextPage();
+	$effect(() => {
+		if (y && y + window.innerHeight >= document.body.scrollHeight - 100) {
+			if (!loading && !done) {
+				page++;
+				loadNextPage();
+			}
 		}
-	}
+	});
 </script>
 
 <Header {isDarkMode} {woofAnimating} {toggleDarkMode} />
@@ -227,9 +231,9 @@
 						? 'translate-y-0 opacity-100'
 						: 'translate-y-4 opacity-0'}"
 					style="--rotate-x: 0deg; --rotate-y: 0deg; --scale: 1; transform-style: preserve-3d; perspective: 1000px;"
-					on:click={(e) => handlePostClick(e, post.id)}
-					on:mousemove={(e) => handleMouseMove(e, e.currentTarget)}
-					on:mouseleave={(e) => handleMouseLeave(e.currentTarget)}
+					onclick={(e) => handlePostClick(e, post.id)}
+					onmousemove={(e) => handleMouseMove(e, e.currentTarget)}
+					onmouseleave={(e) => handleMouseLeave(e.currentTarget)}
 					aria-label="View {post.description || `post ${index + 1}`} in full size"
 				>
 					<div
@@ -244,7 +248,7 @@
 							src={post.media_url}
 							alt={post.description || `Post ${index + 1}`}
 							loading="lazy"
-							on:load={() => handleImageLoad(post.id)}
+							onload={() => handleImageLoad(post.id)}
 							use:checkImageLoaded={post.id}
 						/>
 					</div>
