@@ -5,6 +5,7 @@
 	import { goto } from '$app/navigation';
 	import Header from '$lib/components/Header.svelte';
 	import ScrollToTopButton from '$lib/components/ScrollToTopButton.svelte';
+	import PostCard from '$lib/components/PostCard.svelte';
 
 	let { data }: { data: PageData } = $props();
 
@@ -16,7 +17,6 @@
 	let visiblePosts = $state<Set<string>>(new Set());
 	let loadedImages = $state<Set<string>>(new Set());
 	let animationQueue = $state<string[]>([]);
-	let isDarkMode = $state(false);
 
 	$effect(() => {
 		if (posts.length > 0 && animationQueue.length === 0) {
@@ -25,8 +25,6 @@
 	});
 
 	onMount(() => {
-		isDarkMode = document.documentElement.classList.contains('dark');
-
 		const savedState = sessionStorage.getItem('galleryState');
 		if (savedState) {
 			try {
@@ -95,55 +93,8 @@
 		processAnimationQueue();
 	}
 
-	function checkImageLoaded(node: HTMLImageElement, postId: string) {
-		if (node.complete && node.naturalWidth > 0) {
-			handleImageLoad(postId);
-		}
-
-		return {
-			destroy() {}
-		};
-	}
-
-	function handleMouseMove(e: MouseEvent, postEl: HTMLElement) {
-		const rect = postEl.getBoundingClientRect();
-		const x = e.clientX - rect.left;
-		const y = e.clientY - rect.top;
-
-		const centerX = rect.width / 2;
-		const centerY = rect.height / 2;
-
-		const maxTilt = 5;
-
-		const rotateX = ((y - centerY) / centerY) * -maxTilt;
-		const rotateY = ((x - centerX) / centerX) * maxTilt;
-
-		postEl.style.setProperty('--rotate-x', `${rotateX}deg`);
-		postEl.style.setProperty('--rotate-y', `${rotateY}deg`);
-		postEl.style.setProperty('--scale', '1.05');
-	}
-
-	function handleMouseLeave(postEl: HTMLElement) {
-		postEl.style.setProperty('--rotate-x', '0deg');
-		postEl.style.setProperty('--rotate-y', '0deg');
-		postEl.style.setProperty('--scale', '1');
-	}
-
 	function scrollToTop() {
 		window.scrollTo({ top: 0, behavior: 'smooth' });
-	}
-
-	function toggleDarkMode() {
-		const htmlElement = document.documentElement;
-		isDarkMode = !isDarkMode;
-
-		if (isDarkMode) {
-			htmlElement.classList.add('dark');
-			localStorage.setItem('modeUserPrefers', 'dark');
-		} else {
-			htmlElement.classList.remove('dark');
-			localStorage.setItem('modeUserPrefers', 'light');
-		}
 	}
 
 	function processAnimationQueue() {
@@ -195,57 +146,22 @@
 	});
 </script>
 
-<Header {isDarkMode} {toggleDarkMode} />
+<Header />
 
 <svelte:window bind:scrollY={y} />
 
 <main>
 	<section class="grid grid-cols-2 gap-4 md:grid-cols-3" aria-label="Photo gallery">
 		{#each posts as post, index}
-			<article class="post-card">
-				<a
-					href={`/posts/${post.id}`}
-					class="block rounded-lg transition-all duration-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 {visiblePosts.has(
-						post.id
-					)
-						? 'translate-y-0 opacity-100'
-						: 'translate-y-4 opacity-0'}"
-					style="--rotate-x: 0deg; --rotate-y: 0deg; --scale: 1; transform-style: preserve-3d; perspective: 1000px;"
-					onclick={(e) => handlePostClick(e, post.id)}
-					onmousemove={(e) => handleMouseMove(e, e.currentTarget)}
-					onmouseleave={(e) => handleMouseLeave(e.currentTarget)}
-					aria-label="View {post.description || `post ${index + 1}`} in full size"
-				>
-					<div
-						class="image-container"
-						style="transform: rotateX(var(--rotate-x)) rotateY(var(--rotate-y)) scale(var(--scale)); transition: transform 0.1s ease-out;"
-					>
-						{#if post.description}
-							<span class="sr-only">{post.description}</span>
-						{/if}
-						<img
-							class="h-[300px] w-[300px] rounded-lg object-cover shadow-lg md:h-[500px] md:w-[500px]"
-							src={post.media_url}
-							alt={post.description || `Post ${index + 1}`}
-							loading="lazy"
-							onload={() => handleImageLoad(post.id)}
-							use:checkImageLoaded={post.id}
-						/>
-					</div>
-				</a>
-			</article>
+			<PostCard
+				{post}
+				{index}
+				isVisible={visiblePosts.has(post.id)}
+				onPostClick={handlePostClick}
+				onImageLoad={handleImageLoad}
+			/>
 		{/each}
 	</section>
 </main>
 
 <ScrollToTopButton show={y > 0} {scrollToTop} />
-
-<style>
-	.post-card {
-		transform-style: preserve-3d;
-	}
-
-	.post-card:hover .image-container {
-		box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-	}
-</style>
