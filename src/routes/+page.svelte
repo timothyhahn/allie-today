@@ -17,8 +17,6 @@
 	let loadedImages = $state<Set<string>>(new Set());
 	let animationQueue = $state<string[]>([]);
 	let isDarkMode = $state(false);
-	let woofAnimating = $state(false);
-	let animationTimer: ReturnType<typeof setTimeout>;
 
 	$effect(() => {
 		if (posts.length > 0 && animationQueue.length === 0) {
@@ -26,22 +24,8 @@
 		}
 	});
 
-	function triggerWoofAnimation() {
-		woofAnimating = true;
-		setTimeout(() => {
-			woofAnimating = false;
-		}, 1200); // Animation duration (0.8s animation + 0.3s delay for last letter)
-
-		const nextDelay = Math.random() * 20000 + 40000; // 40-60 seconds
-		animationTimer = setTimeout(triggerWoofAnimation, nextDelay);
-	}
-
 	onMount(() => {
 		isDarkMode = document.documentElement.classList.contains('dark');
-
-		setTimeout(() => {
-			triggerWoofAnimation();
-		}, 500);
 
 		const savedState = sessionStorage.getItem('galleryState');
 		if (savedState) {
@@ -91,11 +75,7 @@
 		};
 	});
 
-	onDestroy(() => {
-		if (animationTimer) {
-			clearTimeout(animationTimer);
-		}
-	});
+	onDestroy(() => {});
 
 	function handlePostClick(e: MouseEvent, postId: string) {
 		const state = {
@@ -215,7 +195,7 @@
 	});
 </script>
 
-<Header {isDarkMode} {woofAnimating} {toggleDarkMode} />
+<Header {isDarkMode} {toggleDarkMode} />
 
 <svelte:window bind:scrollY={y} />
 

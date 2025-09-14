@@ -1,38 +1,35 @@
-# create-svelte
+# Allie Today
 
-Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/main/packages/create-svelte).
+A photo gallery of Allie. Just Allie. Nothing but Allie.
 
-## Creating a project
+Written with ❤️ in SvelteKit. Whether that's for the framework or the dog, who knows.
 
-If you're seeing this, you've probably already done this step. Congrats!
+## Setup
 
 ```bash
-# create a new project in the current directory
-npm create svelte@latest
-
-# create a new project in my-app
-npm create svelte@latest my-app
+npm install
 ```
 
-## Developing
-
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+## Development
 
 ```bash
 npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
 ```
 
-## Building
+Open http://localhost:5173
 
-To create a production version of your app:
+## Build
 
 ```bash
 npm run build
+npm run preview  # Test production build
 ```
 
-You can preview the production build with `npm run preview`.
+## Commands
 
-> To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
+- `npm run dev` - Start development server
+- `npm run build` - Build for production
+- `npm run preview` - Preview production build
+- `npm run lint` - Run linter
+- `npm run check` - Type checking
+- `npm test` - Run tests
