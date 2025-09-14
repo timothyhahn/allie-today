@@ -53,9 +53,6 @@
 		"vitest": "^1.6.1"
 	},
 	"type": "module",
-	"overrides": {
-		"lru-cache": "^10.2.2"
-	},
 	"dependencies": {
 		"@neondatabase/serverless": "^0.9.3",
 		"drizzle-orm": "^0.30.10",
