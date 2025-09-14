@@ -45,10 +45,16 @@ jobs:
         run: npm ci
 
       - name: Generate SvelteKit files
+        env:
+          DB_SERVERLESS_URL: ${{ secrets.DB_SERVERLESS_URL || 'postgresql://dummy:dummy@localhost/dummy' }}
         run: npx svelte-kit sync
 
       - name: Run TypeScript compiler check
+        env:
+          DB_SERVERLESS_URL: ${{ secrets.DB_SERVERLESS_URL || 'postgresql://dummy:dummy@localhost/dummy' }}
         run: npx tsc --noEmit
 
       - name: Run Svelte check
+        env:
+          DB_SERVERLESS_URL: ${{ secrets.DB_SERVERLESS_URL || 'postgresql://dummy:dummy@localhost/dummy' }}
         run: npm run check

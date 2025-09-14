@@ -28,10 +28,17 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Run type checking
+        env:
+          DB_SERVERLESS_URL: ${{ secrets.DB_SERVERLESS_URL || 'postgresql://dummy:dummy@localhost/dummy' }}
+        run: npm run check
+
       - name: Run tests
         run: npm test
 
       - name: Build application
+        env:
+          DB_SERVERLESS_URL: ${{ secrets.DB_SERVERLESS_URL || 'postgresql://dummy:dummy@localhost/dummy' }}
         run: npm run build
 
   playwright:
