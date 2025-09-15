@@ -1,6 +1,20 @@
 <script>
 	import '../app.css';
-	import { autoModeWatcher } from '@skeletonlabs/skeleton';
+
+	// Simple dark mode watcher equivalent to what SkeletonLabs used to provide
+	function autoModeWatcher() {
+		const htmlEl = document.documentElement;
+		const modeValue = localStorage.getItem('modeOSPrefers') || 'system';
+
+		if (
+			modeValue === 'dark' ||
+			(modeValue === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches)
+		) {
+			htmlEl.classList.add('dark');
+		} else {
+			htmlEl.classList.remove('dark');
+		}
+	}
 </script>
 
 <!-- eslint-disable-next-line svelte/no-at-html-tags -->
