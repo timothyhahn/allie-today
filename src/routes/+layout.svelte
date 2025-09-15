@@ -8,7 +8,7 @@
 
 <a
 	href="#main-content"
-	class="sr-only z-50 rounded-md bg-blue-600 px-3 py-2 text-sm font-medium text-white focus:not-sr-only focus:absolute focus:left-4 focus:top-4"
+	class="sr-only z-50 rounded-md bg-blue-600 px-3 py-2 text-sm font-medium text-white focus:not-sr-only focus:absolute focus:top-4 focus:left-4"
 >
 	Skip to main content
 </a>
