@@ -100,7 +100,7 @@
 >
 	<button
 		onclick={closeModal}
-		class="absolute top-4 right-4 z-10 rounded text-4xl transition-transform hover:scale-110 focus:ring-2 focus:ring-white/50 focus:outline-none"
+		class="absolute right-4 top-4 z-10 rounded text-4xl transition-transform hover:scale-110 focus:outline-none focus:ring-2 focus:ring-white/50"
 		aria-label="Close image view"
 	>
 		<X />

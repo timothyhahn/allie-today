@@ -1,20 +1,6 @@
 <script>
 	import '../app.css';
-
-	// Simple dark mode watcher equivalent to what SkeletonLabs used to provide
-	function autoModeWatcher() {
-		const htmlEl = document.documentElement;
-		const modeValue = localStorage.getItem('modeOSPrefers') || 'system';
-
-		if (
-			modeValue === 'dark' ||
-			(modeValue === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches)
-		) {
-			htmlEl.classList.add('dark');
-		} else {
-			htmlEl.classList.remove('dark');
-		}
-	}
+	import { autoModeWatcher } from '@skeletonlabs/skeleton';
 </script>
 
 <!-- eslint-disable-next-line svelte/no-at-html-tags -->
@@ -22,7 +8,7 @@
 
 <a
 	href="#main-content"
-	class="sr-only z-50 rounded-md bg-blue-600 px-3 py-2 text-sm font-medium text-white focus:not-sr-only focus:absolute focus:top-4 focus:left-4"
+	class="sr-only z-50 rounded-md bg-blue-600 px-3 py-2 text-sm font-medium text-white focus:not-sr-only focus:absolute focus:left-4 focus:top-4"
 >
 	Skip to main content
 </a>

@@ -44,7 +44,7 @@
 					}, 0);
 				}
 				sessionStorage.removeItem('galleryState');
-			} catch {
+			} catch (e) {
 				sessionStorage.removeItem('galleryState');
 			}
 		}
