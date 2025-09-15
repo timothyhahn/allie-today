@@ -23,7 +23,7 @@
 
 <button
 	onclick={toggleDarkMode}
-	class="flex h-8 w-8 items-center justify-center rounded-full bg-gray-900 shadow-md transition-all duration-500 ease-out hover:scale-105 hover:shadow-lg focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:outline-none dark:bg-gray-100 dark:focus:ring-blue-400"
+	class="flex h-8 w-8 items-center justify-center rounded-full bg-gray-900 shadow-md transition-all duration-500 ease-out hover:scale-105 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:bg-gray-100 dark:focus:ring-blue-400"
 	aria-label="Toggle between light and dark mode"
 	aria-pressed={isDarkMode}
 	type="button"

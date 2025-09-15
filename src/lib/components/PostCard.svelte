@@ -11,8 +11,8 @@
 		post: Post;
 		index: number;
 		isVisible: boolean;
-		onPostClick: (_e: MouseEvent, _postId: string) => void;
-		onImageLoad: (_postId: string) => void;
+		onPostClick: (e: MouseEvent, postId: string) => void;
+		onImageLoad: (postId: string) => void;
 	} = $props();
 
 	function handleMouseMove(e: MouseEvent, postEl: HTMLElement) {
@@ -53,7 +53,7 @@
 <article class="post-card">
 	<a
 		href={`/posts/${post.id}`}
-		class="block rounded-lg transition-all duration-500 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:outline-none {isVisible
+		class="block rounded-lg transition-all duration-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 {isVisible
 			? 'translate-y-0 opacity-100'
 			: 'translate-y-4 opacity-0'}"
 		style="--rotate-x: 0deg; --rotate-y: 0deg; --scale: 1; transform-style: preserve-3d; perspective: 1000px;"
