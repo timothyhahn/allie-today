@@ -13,9 +13,21 @@
 		/>
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<title>Allie, Today</title>
+		<script>
+			// Initialize dark mode before page loads to prevent flash
+			(function () {
+				const mode = localStorage.getItem('modeUserPrefers');
+				if (
+					mode === 'dark' ||
+					(!mode && window.matchMedia('(prefers-color-scheme: dark)').matches)
+				) {
+					document.documentElement.classList.add('dark');
+				}
+			})();
+		</script>
 		%sveltekit.head%
 	</head>
-	<body data-sveltekit-preload-data="hover" data-theme="allie-today">
+	<body data-sveltekit-preload-data="hover">
 		<div style="display: contents" class="h-full overflow-hidden">%sveltekit.body%</div>
 	</body>
 </html>

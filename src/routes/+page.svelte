@@ -44,7 +44,7 @@
 					}, 0);
 				}
 				sessionStorage.removeItem('galleryState');
-			} catch (e) {
+			} catch {
 				sessionStorage.removeItem('galleryState');
 			}
 		}
@@ -146,22 +146,24 @@
 	});
 </script>
 
-<Header />
-
 <svelte:window bind:scrollY={y} />
 
-<main>
-	<section class="grid grid-cols-2 gap-4 md:grid-cols-3" aria-label="Photo gallery">
-		{#each posts as post, index}
-			<PostCard
-				{post}
-				{index}
-				isVisible={visiblePosts.has(post.id)}
-				onPostClick={handlePostClick}
-				onImageLoad={handleImageLoad}
-			/>
-		{/each}
-	</section>
-</main>
+<div class="container mx-auto p-4 md:p-8">
+	<Header />
+
+	<main>
+		<section class="grid grid-cols-2 gap-4 md:grid-cols-3" aria-label="Photo gallery">
+			{#each posts as post, index}
+				<PostCard
+					{post}
+					{index}
+					isVisible={visiblePosts.has(post.id)}
+					onPostClick={handlePostClick}
+					onImageLoad={handleImageLoad}
+				/>
+			{/each}
+		</section>
+	</main>
+</div>
 
 <ScrollToTopButton show={y > 0} {scrollToTop} />
