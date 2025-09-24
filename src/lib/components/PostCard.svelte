@@ -50,10 +50,10 @@
 	}
 </script>
 
-<article class="post-card">
+<article class="[transform-style:preserve-3d]">
 	<a
 		href={`/posts/${post.id}`}
-		class="block rounded-lg transition-all duration-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 {isVisible
+		class="block rounded-lg transition-all duration-500 focus:outline-none focus-visible:[box-shadow:0_0_0_3px_rgba(255_255_255/0.5)] {isVisible
 			? 'translate-y-0 opacity-100'
 			: 'translate-y-4 opacity-0'}"
 		style="--rotate-x: 0deg; --rotate-y: 0deg; --scale: 1; transform-style: preserve-3d; perspective: 1000px;"
@@ -63,8 +63,8 @@
 		aria-label="View {post.description || `post ${index + 1}`} in full size"
 	>
 		<div
-			class="image-container"
-			style="transform: rotateX(var(--rotate-x)) rotateY(var(--rotate-y)) scale(var(--scale)); transition: transform 0.1s ease-out;"
+			class="transition-transform duration-100 ease-out hover:shadow-2xl"
+			style="transform: rotateX(var(--rotate-x)) rotateY(var(--rotate-y)) scale(var(--scale));"
 		>
 			{#if post.description}
 				<span class="sr-only">{post.description}</span>
@@ -80,13 +80,3 @@
 		</div>
 	</a>
 </article>
-
-<style>
-	.post-card {
-		transform-style: preserve-3d;
-	}
-
-	.post-card:hover .image-container {
-		box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-	}
-</style>
