@@ -35,3 +35,69 @@ html {
 		background-color 0.2s ease,
 		color 0.2s ease;
 }
+
+/* View Transitions API Animations */
+@supports (view-transition-name: none) {
+	/* Default page transition */
+	::view-transition-old(root) {
+		animation: fade-out 0.3s ease-out;
+	}
+
+	::view-transition-new(root) {
+		animation: fade-in 0.3s ease-out;
+	}
+
+	/* Image transitions - zoom effect */
+	[style*='view-transition-name: post-image'] {
+		contain: layout;
+	}
+
+	/* Smooth scaling and positioning for images */
+	::view-transition-old(post-image-*),
+	::view-transition-new(post-image-*) {
+		animation-duration: 0.4s;
+		animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+	}
+
+	/* Keyframes for fade effects */
+	@keyframes fade-out {
+		from {
+			opacity: 1;
+		}
+		to {
+			opacity: 0;
+		}
+	}
+
+	@keyframes fade-in {
+		from {
+			opacity: 0;
+		}
+		to {
+			opacity: 1;
+		}
+	}
+
+	/* Disable default cross-fade for smoother image transitions */
+	::view-transition-group(*) {
+		animation-duration: 0.4s;
+		animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+	}
+
+	/* Hide the old image immediately to prevent double image effect */
+	::view-transition-old(post-image-*) {
+		animation: none;
+		opacity: 0;
+	}
+
+	/* The new image gets the full transition */
+	::view-transition-new(post-image-*) {
+		animation: none;
+		opacity: 1;
+	}
+
+	/* Ensure the image container scales smoothly */
+	::view-transition-image-pair(post-image-*) {
+		animation: none;
+	}
+}

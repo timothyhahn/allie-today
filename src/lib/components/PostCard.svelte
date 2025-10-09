@@ -71,6 +71,7 @@
 			{/if}
 			<img
 				class="h-[300px] w-[300px] rounded-lg object-cover shadow-lg md:h-[500px] md:w-[500px]"
+				style="view-transition-name: post-image-{post.id}"
 				src={post.media_url}
 				alt={post.description || `Post ${index + 1}`}
 				loading="lazy"

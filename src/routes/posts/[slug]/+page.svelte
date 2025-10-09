@@ -76,7 +76,7 @@
 </svelte:head>
 
 <div
-	class="fixed inset-0 flex items-center justify-center p-4"
+	class="bg-surface-50 dark:bg-surface-950 fixed inset-0 flex items-center justify-center p-4"
 	role="dialog"
 	aria-modal="true"
 	aria-labelledby="modal-title"
@@ -100,7 +100,7 @@
 >
 	<button
 		onclick={closeModal}
-		class="absolute top-4 right-4 z-10 rounded text-4xl transition-transform hover:scale-110 focus:ring-2 focus:ring-white/50 focus:outline-none"
+		class="text-surface-950 dark:text-surface-50 focus:ring-surface-950/50 dark:focus:ring-surface-50/50 absolute top-4 right-4 z-10 rounded text-4xl transition-transform hover:scale-110 focus:ring-2 focus:outline-none"
 		aria-label="Close image view"
 	>
 		<X />
@@ -122,6 +122,7 @@
 				class="rounded-lg object-contain shadow-md shadow-slate-800 {portrait
 					? 'max-h-[90vh] w-auto'
 					: 'h-auto max-h-[90vh] max-w-[90vw]'}"
+				style="view-transition-name: post-image-{post.id}"
 				src={largeUrl}
 				alt={post.description || 'Post image'}
 				loading="lazy"
@@ -129,7 +130,10 @@
 			/>
 			{#if post.description}
 				<h1 id="modal-title" class="sr-only">{post.description}</h1>
-				<p id="modal-description" class="mt-4 max-w-2xl px-4 text-center text-white/90">
+				<p
+					id="modal-description"
+					class="text-surface-950 dark:text-surface-50 mt-4 max-w-2xl px-4 text-center"
+				>
 					{post.description}
 				</p>
 			{:else}
