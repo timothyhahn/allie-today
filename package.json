@@ -55,9 +55,9 @@
 	},
 	"type": "module",
 	"dependencies": {
-		"@neondatabase/serverless": "^1.0.1",
-		"@tailwindcss/vite": "^4.1.13",
-		"drizzle-orm": "^0.44.5",
-		"lucide-svelte": "^0.544.0"
+		"@neondatabase/serverless": "^1.0.2",
+		"@tailwindcss/vite": "^4.1.14",
+		"drizzle-orm": "^0.44.6",
+		"lucide-svelte": "^0.545.0"
 	}
 }
