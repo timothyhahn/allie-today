@@ -1,7 +1,5 @@
 import { error, json, type RequestHandler } from '@sveltejs/kit';
-import { DB_SERVERLESS_URL } from '$env/static/private';
-import { drizzle } from 'drizzle-orm/neon-http';
-import { neon } from '@neondatabase/serverless';
+import { db } from '$lib/db';
 import * as schema from '$lib/schema';
 import { eq } from 'drizzle-orm';
 
@@ -10,9 +8,6 @@ export const GET: RequestHandler = async ({ params }) => {
 	if (!postId) {
 		return error(404, 'Post not found');
 	}
-
-	const sql = neon(DB_SERVERLESS_URL);
-	const db = drizzle(sql, { schema });
 
 	try {
 		const post = await db.select().from(schema.post).where(eq(schema.post.id, postId)).limit(1);

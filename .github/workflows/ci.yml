@@ -49,7 +49,10 @@ jobs:
 
       - name: Run type checking
         env:
-          DB_SERVERLESS_URL: ${{ secrets.DB_SERVERLESS_URL || 'postgresql://dummy:dummy@localhost/dummy' }}
+          DATABASE_HOST: ${{ secrets.DATABASE_HOST || 'dummy' }}
+          DATABASE_NAME: ${{ secrets.DATABASE_NAME || 'dummy' }}
+          DATABASE_USERNAME: ${{ secrets.DATABASE_USERNAME || 'dummy' }}
+          DATABASE_PASSWORD: ${{ secrets.DATABASE_PASSWORD || 'dummy' }}
         run: npm run check
 
       - name: Run unit tests
@@ -57,7 +60,10 @@ jobs:
 
       - name: Build application
         env:
-          DB_SERVERLESS_URL: ${{ secrets.DB_SERVERLESS_URL || 'postgresql://dummy:dummy@localhost/dummy' }}
+          DATABASE_HOST: ${{ secrets.DATABASE_HOST || 'dummy' }}
+          DATABASE_NAME: ${{ secrets.DATABASE_NAME || 'dummy' }}
+          DATABASE_USERNAME: ${{ secrets.DATABASE_USERNAME || 'dummy' }}
+          DATABASE_PASSWORD: ${{ secrets.DATABASE_PASSWORD || 'dummy' }}
         run: npm run build
 
   # Commenting out Playwright E2E job until secrets issue is resolved
@@ -96,7 +102,10 @@ jobs:
 
   #     - name: Run Playwright tests
   #       env:
-  #         DB_SERVERLESS_URL: ${{ secrets.DB_SERVERLESS_URL || 'postgresql://dummy:dummy@localhost/dummy' }}
+  #         DATABASE_HOST: ${{ secrets.DATABASE_HOST || 'dummy' }}
+  #         DATABASE_NAME: ${{ secrets.DATABASE_NAME || 'dummy' }}
+  #         DATABASE_USERNAME: ${{ secrets.DATABASE_USERNAME || 'dummy' }}
+  #         DATABASE_PASSWORD: ${{ secrets.DATABASE_PASSWORD || 'dummy' }}
   #       run: npm run test:integration
 
   #     - name: Upload Playwright report

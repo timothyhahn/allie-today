@@ -5,6 +5,10 @@ export default defineConfig({
 	schema: './src/schema.ts',
 	out: './drizzle',
 	dbCredentials: {
-		url: process.env.DB_SERVERLESS_URL!
+		host: process.env.DATABASE_HOST!,
+		database: process.env.DATABASE_NAME!,
+		user: process.env.DATABASE_USERNAME!,
+		password: process.env.DATABASE_PASSWORD!,
+		ssl: 'require'
 	}
 });

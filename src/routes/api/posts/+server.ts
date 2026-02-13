@@ -1,9 +1,7 @@
 import { error, json, type RequestHandler } from '@sveltejs/kit';
-import { neon } from '@neondatabase/serverless';
-import { drizzle } from 'drizzle-orm/neon-http';
+import { db } from '$lib/db';
 import * as schema from '$lib/schema';
 import { count, desc } from 'drizzle-orm';
-import { DB_SERVERLESS_URL } from '$env/static/private';
 
 export const GET: RequestHandler = async ({ url }) => {
 	const offset = parseInt(url.searchParams.get('offset') || '0');
@@ -11,9 +9,6 @@ export const GET: RequestHandler = async ({ url }) => {
 	if (isNaN(offset)) {
 		return error(400, 'Invalid offset');
 	}
-
-	const sql = neon(DB_SERVERLESS_URL);
-	const db = drizzle(sql, { schema });
 
 	try {
 		const totalNum = await db.select({ value: count() }).from(schema.post);

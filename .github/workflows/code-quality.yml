@@ -46,15 +46,24 @@ jobs:
 
       - name: Generate SvelteKit files
         env:
-          DB_SERVERLESS_URL: ${{ secrets.DB_SERVERLESS_URL || 'postgresql://dummy:dummy@localhost/dummy' }}
+          DATABASE_HOST: ${{ secrets.DATABASE_HOST || 'dummy' }}
+          DATABASE_NAME: ${{ secrets.DATABASE_NAME || 'dummy' }}
+          DATABASE_USERNAME: ${{ secrets.DATABASE_USERNAME || 'dummy' }}
+          DATABASE_PASSWORD: ${{ secrets.DATABASE_PASSWORD || 'dummy' }}
         run: npx svelte-kit sync
 
       - name: Run TypeScript compiler check
         env:
-          DB_SERVERLESS_URL: ${{ secrets.DB_SERVERLESS_URL || 'postgresql://dummy:dummy@localhost/dummy' }}
+          DATABASE_HOST: ${{ secrets.DATABASE_HOST || 'dummy' }}
+          DATABASE_NAME: ${{ secrets.DATABASE_NAME || 'dummy' }}
+          DATABASE_USERNAME: ${{ secrets.DATABASE_USERNAME || 'dummy' }}
+          DATABASE_PASSWORD: ${{ secrets.DATABASE_PASSWORD || 'dummy' }}
         run: npx tsc --noEmit
 
       - name: Run Svelte check
         env:
-          DB_SERVERLESS_URL: ${{ secrets.DB_SERVERLESS_URL || 'postgresql://dummy:dummy@localhost/dummy' }}
+          DATABASE_HOST: ${{ secrets.DATABASE_HOST || 'dummy' }}
+          DATABASE_NAME: ${{ secrets.DATABASE_NAME || 'dummy' }}
+          DATABASE_USERNAME: ${{ secrets.DATABASE_USERNAME || 'dummy' }}
+          DATABASE_PASSWORD: ${{ secrets.DATABASE_PASSWORD || 'dummy' }}
         run: npm run check
