@@ -48,22 +48,12 @@ jobs:
         run: npm run lint
 
       - name: Run type checking
-        env:
-          DATABASE_HOST: ${{ secrets.DATABASE_HOST || 'dummy' }}
-          DATABASE_NAME: ${{ secrets.DATABASE_NAME || 'dummy' }}
-          DATABASE_USERNAME: ${{ secrets.DATABASE_USERNAME || 'dummy' }}
-          DATABASE_PASSWORD: ${{ secrets.DATABASE_PASSWORD || 'dummy' }}
         run: npm run check
 
       - name: Run unit tests
         run: npm run test:unit
 
       - name: Build application
-        env:
-          DATABASE_HOST: ${{ secrets.DATABASE_HOST || 'dummy' }}
-          DATABASE_NAME: ${{ secrets.DATABASE_NAME || 'dummy' }}
-          DATABASE_USERNAME: ${{ secrets.DATABASE_USERNAME || 'dummy' }}
-          DATABASE_PASSWORD: ${{ secrets.DATABASE_PASSWORD || 'dummy' }}
         run: npm run build
 
   # Commenting out Playwright E2E job until secrets issue is resolved

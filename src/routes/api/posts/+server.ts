@@ -1,5 +1,5 @@
 import { error, json, type RequestHandler } from '@sveltejs/kit';
-import { db } from '$lib/db';
+import { getDb } from '$lib/db';
 import * as schema from '$lib/schema';
 import { count, desc } from 'drizzle-orm';
 
@@ -9,6 +9,8 @@ export const GET: RequestHandler = async ({ url }) => {
 	if (isNaN(offset)) {
 		return error(400, 'Invalid offset');
 	}
+
+	const db = getDb();
 
 	try {
 		const totalNum = await db.select({ value: count() }).from(schema.post);

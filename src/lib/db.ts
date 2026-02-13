@@ -1,19 +1,20 @@
 import postgres from 'postgres';
 import { drizzle } from 'drizzle-orm/postgres-js';
-import {
-	DATABASE_HOST,
-	DATABASE_NAME,
-	DATABASE_USERNAME,
-	DATABASE_PASSWORD
-} from '$env/static/private';
+import { env } from '$env/dynamic/private';
 import * as schema from './schema';
 
-const client = postgres({
-	host: DATABASE_HOST,
-	database: DATABASE_NAME,
-	username: DATABASE_USERNAME,
-	password: DATABASE_PASSWORD,
-	ssl: 'require'
-});
+let _db: ReturnType<typeof drizzle>;
 
-export const db = drizzle(client, { schema });
+export function getDb() {
+	if (!_db) {
+		const client = postgres({
+			host: env.DATABASE_HOST!,
+			database: env.DATABASE_NAME!,
+			username: env.DATABASE_USERNAME!,
+			password: env.DATABASE_PASSWORD!,
+			ssl: 'require'
+		});
+		_db = drizzle(client, { schema });
+	}
+	return _db;
+}

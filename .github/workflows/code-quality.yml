@@ -45,25 +45,10 @@ jobs:
         run: npm ci
 
       - name: Generate SvelteKit files
-        env:
-          DATABASE_HOST: ${{ secrets.DATABASE_HOST || 'dummy' }}
-          DATABASE_NAME: ${{ secrets.DATABASE_NAME || 'dummy' }}
-          DATABASE_USERNAME: ${{ secrets.DATABASE_USERNAME || 'dummy' }}
-          DATABASE_PASSWORD: ${{ secrets.DATABASE_PASSWORD || 'dummy' }}
         run: npx svelte-kit sync
 
       - name: Run TypeScript compiler check
-        env:
-          DATABASE_HOST: ${{ secrets.DATABASE_HOST || 'dummy' }}
-          DATABASE_NAME: ${{ secrets.DATABASE_NAME || 'dummy' }}
-          DATABASE_USERNAME: ${{ secrets.DATABASE_USERNAME || 'dummy' }}
-          DATABASE_PASSWORD: ${{ secrets.DATABASE_PASSWORD || 'dummy' }}
         run: npx tsc --noEmit
 
       - name: Run Svelte check
-        env:
-          DATABASE_HOST: ${{ secrets.DATABASE_HOST || 'dummy' }}
-          DATABASE_NAME: ${{ secrets.DATABASE_NAME || 'dummy' }}
-          DATABASE_USERNAME: ${{ secrets.DATABASE_USERNAME || 'dummy' }}
-          DATABASE_PASSWORD: ${{ secrets.DATABASE_PASSWORD || 'dummy' }}
         run: npm run check

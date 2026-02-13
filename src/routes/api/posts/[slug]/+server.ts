@@ -1,5 +1,5 @@
 import { error, json, type RequestHandler } from '@sveltejs/kit';
-import { db } from '$lib/db';
+import { getDb } from '$lib/db';
 import * as schema from '$lib/schema';
 import { eq } from 'drizzle-orm';
 
@@ -8,6 +8,8 @@ export const GET: RequestHandler = async ({ params }) => {
 	if (!postId) {
 		return error(404, 'Post not found');
 	}
+
+	const db = getDb();
 
 	try {
 		const post = await db.select().from(schema.post).where(eq(schema.post.id, postId)).limit(1);
