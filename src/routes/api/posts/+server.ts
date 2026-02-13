@@ -36,10 +36,7 @@ export const GET: RequestHandler = async ({ url }) => {
 		console.error('[GET /api/posts] Error:', e instanceof Error ? e.message : e);
 		if (e instanceof Error && e.cause) {
 			const cause = e.cause;
-			console.error(
-				'[GET /api/posts] Cause:',
-				cause instanceof Error ? cause.message : cause
-			);
+			console.error('[GET /api/posts] Cause:', cause instanceof Error ? cause.message : cause);
 			if (cause instanceof Error && cause.stack) {
 				console.error('[GET /api/posts] Cause stack:', cause.stack);
 			}
